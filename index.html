@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JuriScore – Totum Avocats</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Mulish:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal-dark: #00565F;
+    --teal: #21B5B8;
+    --pink: #EB7FAA;
+    --purple: #AA9ABE;
+    --orange: #E85D15;
+    --yellow: #F2B92C;
+    --white: #fff;
+    --bg: #f7f8fa;
+    --text: #1a1a2e;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Mulish', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ---- HEADER ---- */
+  header {
+    background: var(--teal-dark);
+    padding: 18px 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .logo-mark {
+    display: flex; align-items: center; gap: 4px;
+  }
+  .logo-text {
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+  }
+  .logo-sub {
+    font-family: 'Mulish', sans-serif;
+    color: var(--teal);
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    font-weight: 400;
+  }
+
+  /* ---- HERO / INTRO ---- */
+  #intro {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 60px 24px 40px;
+    text-align: center;
+  }
+  .badge {
+    display: inline-block;
+    background: var(--teal);
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    padding: 5px 18px;
+    border-radius: 100px;
+    margin-bottom: 22px;
+    text-transform: uppercase;
+  }
+  #intro h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(1.7rem, 4vw, 2.7rem);
+    font-weight: 900;
+    line-height: 1.15;
+    color: var(--teal-dark);
+    margin-bottom: 10px;
+  }
+  #intro h1 em {
+    font-style: normal;
+    color: var(--orange);
+  }
+  #intro .subtitle {
+    font-size: 1.05rem;
+    color: #666;
+    margin-bottom: 28px;
+    font-style: italic;
+  }
+  .bullets {
+    text-align: left;
+    background: white;
+    border-radius: 16px;
+    padding: 28px 32px;
+    border-left: 5px solid var(--teal);
+    margin-bottom: 32px;
+    box-shadow: 0 4px 24px rgba(0,86,95,0.07);
+  }
+  .bullets p {
+    font-size: 0.97rem;
+    margin-bottom: 10px;
+    padding-left: 22px;
+    position: relative;
+    color: #333;
+    line-height: 1.5;
+  }
+  .bullets p:last-child { margin-bottom: 0; }
+  .bullets p::before {
+    content: '→';
+    position: absolute; left: 0;
+    color: var(--teal);
+    font-weight: 700;
+  }
+  .meta-pills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 36px;
+  }
+  .meta-pill {
+    background: white;
+    border: 1.5px solid var(--purple);
+    border-radius: 100px;
+    padding: 6px 18px;
+    font-size: 0.82rem;
+    color: var(--teal-dark);
+    font-weight: 600;
+  }
+  .btn-start {
+    background: var(--orange);
+    color: white;
+    border: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    padding: 17px 48px;
+    border-radius: 100px;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 6px 24px rgba(232,93,21,0.28);
+  }
+  .btn-start:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(232,93,21,0.32); }
+
+  /* ---- QUIZ ---- */
+  #quiz { display: none; max-width: 680px; margin: 0 auto; padding: 40px 24px 60px; }
+
+  .progress-wrap {
+    margin-bottom: 32px;
+  }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--teal-dark);
+    margin-bottom: 8px;
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .progress-bar {
+    height: 7px;
+    background: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), var(--teal-dark));
+    border-radius: 10px;
+    transition: width 0.4s cubic-bezier(.4,0,.2,1);
+  }
+
+  .q-card {
+    background: white;
+    border-radius: 20px;
+    padding: 36px 36px 32px;
+    box-shadow: 0 6px 32px rgba(0,86,95,0.09);
+    animation: slideIn 0.32s cubic-bezier(.4,0,.2,1);
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .q-number {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: var(--teal);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .q-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.13rem;
+    font-weight: 700;
+    color: var(--teal-dark);
+    line-height: 1.4;
+    margin-bottom: 8px;
+  }
+  .q-hint {
+    font-size: 0.85rem;
+    color: #888;
+    font-style: italic;
+    margin-bottom: 24px;
+    line-height: 1.4;
+  }
+
+  .options { display: flex; flex-direction: column; gap: 11px; }
+
+  .option-btn {
+    background: #f7f8fa;
+    border: 2px solid #e8e8e8;
+    border-radius: 12px;
+    padding: 14px 20px;
+    text-align: left;
+    cursor: pointer;
+    font-family: 'Mulish', sans-serif;
+    font-size: 0.95rem;
+    color: #333;
+    transition: border-color 0.15s, background 0.15s, transform 0.12s;
+    font-weight: 600;
+  }
+  .option-btn:hover {
+    border-color: var(--teal);
+    background: #e8f9fa;
+    transform: translateX(4px);
+  }
+  .option-btn.selected {
+    border-color: var(--teal-dark);
+    background: linear-gradient(135deg, #e0f7f8, #f0fefe);
+    color: var(--teal-dark);
+  }
+
+  .q-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 28px;
+  }
+  .btn-back {
+    background: none;
+    border: 2px solid #ccc;
+    border-radius: 100px;
+    padding: 10px 26px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #999;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .btn-back:hover { border-color: var(--teal); color: var(--teal-dark); }
+  .btn-next {
+    background: var(--teal-dark);
+    color: white;
+    border: none;
+    border-radius: 100px;
+    padding: 13px 36px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.12s;
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  .btn-next.active { opacity: 1; pointer-events: all; }
+  .btn-next.active:hover { background: var(--teal); transform: translateY(-1px); }
+
+  /* ---- RESULT ---- */
+  #result { display: none; max-width: 740px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  .result-header {
+    text-align: center;
+    margin-bottom: 36px;
+  }
+  .score-circle {
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 2.8rem;
+    box-shadow: 0 8px 36px rgba(0,0,0,0.13);
+  }
+  .score-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-bottom: 8px;
+  }
+  .score-sub {
+    color: #666;
+    font-size: 0.95rem;
+    max-width: 480px;
+    margin: 0 auto 28px;
+    line-height: 1.5;
+  }
+
+  /* Tally pills */
+  .tally-row {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+  }
+  .tally-pill {
+    background: white;
+    border-radius: 100px;
+    padding: 8px 22px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  /* Question recap */
+  .recap-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: var(--teal);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .recap-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 36px; }
+  .recap-item {
+    background: white;
+    border-radius: 14px;
+    padding: 16px 20px;
+    box-shadow: 0 2px 12px rgba(0,86,95,0.06);
+    border-left: 4px solid var(--purple);
+  }
+  .recap-item.green { border-left-color: #21B5B8; }
+  .recap-item.orange { border-left-color: var(--yellow); }
+  .recap-item.red { border-left-color: var(--orange); }
+  .recap-q {
+    font-weight: 700;
+    font-size: 0.88rem;
+    color: var(--teal-dark);
+    margin-bottom: 4px;
+    font-family: 'Montserrat', sans-serif;
+  }
+  .recap-answer {
+    font-size: 0.82rem;
+    color: #555;
+    margin-bottom: 6px;
+  }
+  .recap-comment {
+    font-size: 0.82rem;
+    color: #444;
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  /* Message card */
+  .message-card {
+    border-radius: 20px;
+    padding: 36px 36px 32px;
+    margin-bottom: 28px;
+    box-shadow: 0 6px 32px rgba(0,0,0,0.08);
+  }
+  .message-card h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+  .message-card p { font-size: 0.93rem; line-height: 1.65; color: #333; margin-bottom: 12px; }
+  .message-card p:last-child { margin-bottom: 0; }
+  .message-card ul { margin: 10px 0 14px 0; }
+  .message-card ul li {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #333;
+    padding: 4px 0 4px 22px;
+    position: relative;
+  }
+  .message-card ul li::before {
+    content: '▸';
+    position: absolute; left: 0;
+    font-size: 0.8rem;
+  }
+  .card-green { background: linear-gradient(135deg, #e8faf8, #d0f5f2); border-left: 5px solid var(--teal); }
+  .card-orange { background: linear-gradient(135deg, #fff9e6, #fef2c0); border-left: 5px solid var(--yellow); }
+  .card-red { background: linear-gradient(135deg, #fff2ee, #fde0d5); border-left: 5px solid var(--orange); }
+
+  .contact-bar {
+    background: var(--teal-dark);
+    border-radius: 16px;
+    padding: 24px 32px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    color: white;
+  }
+  .contact-bar p { font-weight: 600; font-size: 0.95rem; }
+  .contact-bar a {
+    color: var(--teal);
+    text-decoration: none;
+    font-weight: 700;
+  }
+  .btn-restart {
+    background: white;
+    color: var(--teal-dark);
+    border: none;
+    border-radius: 100px;
+    padding: 12px 32px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 800;
+    cursor: pointer;
+    margin-top: 24px;
+    display: block;
+    margin: 32px auto 0;
+    transition: background 0.15s;
+  }
+  .btn-restart:hover { background: #dff6f7; }
+
+  /* Color-coded score dot */
+  .score-dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 4px; }
+  .dot-green { background: var(--teal); }
+  .dot-orange { background: var(--yellow); }
+  .dot-red { background: var(--orange); }
+
+  @media(max-width: 520px) {
+    .q-card { padding: 24px 18px 20px; }
+    header { padding: 14px 18px; }
+    .message-card { padding: 24px 18px 20px; }
+    .contact-bar { padding: 20px 18px; flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo-text">TOTUM</div>
+    <div class="logo-sub">avocats</div>
+  </div>
+</header>
+
+<!-- INTRO -->
+<section id="intro">
+  <div class="badge">⚡ Diagnostic Juridique Gratuit</div>
+  <h1>Votre société est-elle <em>vraiment prête</em> pour la suite ?</h1>
+  <p class="subtitle">Levée de fonds, cession, ou simplement éviter les pièges qui coûtent une fortune ?</p>
+  <div class="bullets">
+    <p>Les <strong>erreurs fatales</strong> qui font fuir les investisseurs/acquéreurs — même si votre business est solide.</p>
+    <p>Les <strong>documents critiques manquants</strong> qui pourraient bloquer votre levée de fonds du jour au lendemain.</p>
+    <p>Les <strong>risques invisibles</strong> dans vos accords, flux d'argent ou propriété intellectuelle.</p>
+  </div>
+  <div class="meta-pills">
+    <span class="meta-pill">⏱ 10 minutes</span>
+    <span class="meta-pill">💡 100% gratuit</span>
+    <span class="meta-pill">🔒 Sans engagement</span>
+    <span class="meta-pill">📊 Résultat immédiat</span>
+  </div>
+  <button class="btn-start" onclick="startQuiz()">👉 Lancer mon JuriScore</button>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz">
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span id="progress-text">Question 1 / 10</span>
+      <span id="progress-pct">0%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+  </div>
+  <div class="q-card" id="q-card"></div>
+</section>
+
+<!-- RESULT -->
+<section id="result"></section>
+
+<script>
+const QUESTIONS = [
+  {
+    id: 1,
+    text: "Quelle est la forme de votre société ?",
+    options: [
+      { label: "SARL", score: "⚠️", comment: "Vos futurs investisseurs ou acquéreurs préfèrent les SAS. Elles offrent une plus grande souplesse statutaire et une organisation plus adaptable. Pensez à anticiper la transformation de votre SARL en SAS (comptez 3 à 4 semaines)." },
+      { label: "SAS", score: "✅", comment: "Vous avez bien fait, c'est la forme préférée des investisseurs/acquéreurs. Si vous le souhaitez, nous pouvons encore optimiser votre choix en challengeant vos statuts existants." },
+      { label: "SA", score: "⚠️", comment: "Vous avez déjà une société par actions. Mais vos futurs investisseurs souhaiteront certainement la transformer en SAS pour plus de souplesse. Anticipez la transformation (3 à 4 semaines)." },
+      { label: "SC", score: "🚨", comment: "Votre société ne peut pas exercer d'activité autre que civile et ses associés sont indéfiniment responsables. Vous risquez de faire fuir vos futurs investisseurs. Pensez à anticiper la transformation en SAS (3 à 4 semaines)." },
+      { label: "SNC", score: "🚨", comment: "Par nature, vous avez une société « fermée » dont les associés sont indéfiniment et solidairement responsables. Vous risquez de faire fuir vos futurs investisseurs. Pensez à anticiper la transformation en SAS (3 à 4 semaines)." },
+      { label: "SCA", score: "🚨", comment: "Cette forme sociétaire est très peu adaptée aux opérations d'investissement ou de cession. Pensez à anticiper la transformation en SAS (3 à 4 semaines)." },
+      { label: "Je n'en ai pas encore, mais j'y pense", score: "⚠️", comment: "Bonne nouvelle, vous disposez d'une page blanche pour structurer correctement votre entreprise. Nous vous accompagnerons avec plaisir pour constituer votre société avant que vous ne soyez trop engagé à titre personnel." },
+    ]
+  },
+  {
+    id: 2,
+    text: "Avez-vous des registres légaux des décisions et (pour les sociétés par actions) un registre des mouvements de titres ?",
+    options: [
+      { label: "Kezako ?", score: "🚨", comment: "Les pièces qui vous seront systématiquement demandées par les administrations et qui font office de titres de propriété pour les sociétés par actions. Pas de panique, vous pouvez régulariser avec du papier ou une solution digitale." },
+      { label: "Oui mais ils sont vierges", score: "⚠️", comment: "Pas de panique, une mise à jour est toujours possible." },
+      { label: "Oui et tous bien renseignés « of course »", score: "✅", comment: "Bravo ! Vous êtes irréprochable !" },
+    ]
+  },
+  {
+    id: 3,
+    text: "Votre société a plus d'un exercice comptable derrière elle ?",
+    hint: "Si non, nous vous donnerons un conseil ciblé. Si oui, une question complémentaire suivra.",
+    options: [
+      { label: "Non, c'est le premier", score: "⚠️", comment: "Notre conseil : faites-vous accompagner dans cette étape d'approbation et de dépôt des comptes. Nous nous assurerons que votre documentation juridique reflète bien les évènements comptabilisés dans votre bilan.", subQ: false },
+      { label: "Oui – et j'ai toujours approuvé et déposé mes comptes", score: "✅", comment: "Félicitations ! Si en plus votre documentation juridique est en cohérence avec votre pitch et vos bilans, vous êtes fin prêt(e) à affronter vos futurs audits !", subQ: false },
+      { label: "Oui – mais je ne suis pas certain(e) d'avoir tout déposé", score: "⚠️", comment: "Soyez certain(e) que tout audit d'investissement débutera par une revue du respect de vos obligations juridico-comptables. Chez totum, nous savons mettre en cohérence la documentation juridique et votre pitch.", subQ: false },
+      { label: "Oui – mais c'est de la paperasse, j'ai autre chose à faire", score: "🚨", comment: "C'est avant tout une obligation légale. Tout audit d'investissement/d'acquisition débutera par une revue du respect de vos obligations. Notre petit plus chez totum : nous savons mettre en cohérence la documentation juridique et votre pitch.", subQ: false },
+    ]
+  },
+  {
+    id: 4,
+    text: "Vous n'êtes pas le seul associé de votre société. Avez-vous conclu un pacte ?",
+    options: [
+      { label: "Oui mais je ne sais plus où il est", score: "⚠️", comment: "Une fois votre pacte retrouvé, nous pouvons le décortiquer pour vous, en faire une synthèse et nous assurer de son efficacité juridique et de sa complémentarité avec vos statuts." },
+      { label: "Oui, c'est mon livre de chevet", score: "✅", comment: "Quel talent ! Si en plus il est efficace juridiquement et sans contradiction avec vos statuts, vous êtes paré à toute éventualité. Pour le vérifier, un audit rapide peut être utile." },
+      { label: "Non", score: "🚨", comment: "Pas de panique, nous pouvons vous accompagner pour créer votre futur pacte !" },
+      { label: "C'est en cours... mais pas urgent", score: "⚠️", comment: "Vous êtes un adepte du « jusqu'ici tout va bien ». Pas de panique, nous pouvons reprendre les choses là où elles en sont restées et vous accompagner jusqu'à la finalisation de votre pacte." },
+    ]
+  },
+  {
+    id: 5,
+    text: "Vous dirigez votre société et la portez — mais vous rémunère-t-elle ?",
+    options: [
+      { label: "Oui", score: "✅", comment: "Cela signifie que votre société porte un projet abouti et rentable. Bravo ! Si en plus votre rémunération a été juridiquement correctement validée, félicitations, vous passerez sans encombre n'importe quel audit !" },
+      { label: "Non", score: "⚠️", comment: "Porter un projet entrepreneurial vers la rentabilité est le plus grand des enjeux ! Nous vous admirons pour cela. Notre conseil : pensez bien à acter juridiquement l'absence de rémunération au titre de votre mandat de dirigeant." },
+      { label: "Je me débrouille / Pas vraiment", score: "🚨", comment: "Oups... Ça nous fait clignoter et penser aux notes de frais et aux IK. Contactez-nous et nous vous aiderons à faire le tri pour affronter les questions et audits de vos futurs investisseurs ou acquéreurs." },
+    ]
+  },
+  {
+    id: 6,
+    text: "Vos mouvements d'argent avec la société et vos contrats avec des proches sont-ils bien sécurisés ?",
+    hint: "On parle ici des prêts, remboursements ou comptes courants entre vous et votre société, ainsi que des accords avec des membres de votre famille, amis ou autres sociétés liées.",
+    options: [
+      { label: "Oui, tout est documenté (conventions signées & contrats approuvés en AG)", score: "✅", comment: "Bravo ! Vos flux financiers et vos contrats sont sécurisés. Vous êtes paré(e) pour affronter n'importe quel audit ou contrôle fiscal. Continuez comme ça !" },
+      { label: "Comptes courants sans convention écrite", score: "⚠️", comment: "Alerte trésorerie ! Ces sommes peuvent être réclamées à tout moment et votre société sera tenue de les rembourser. Un modèle de convention peut tout régulariser. Contactez-nous !" },
+      { label: "Contrats avec des proches non approuvés en AG", score: "⚠️", comment: "Il n'y a pas péril en la demeure, mais il vaudrait mieux sécuriser la situation. On vous aide pour régulariser tout ça ?" },
+      { label: "Comptes courants ET contrats avec des proches, rien n'est écrit ni approuvé", score: "🚨", comment: "Pas de panique, nous pouvons vous aider à reconstituer vos flux de façon à les sécuriser et les documenter pour parer à vos prochains audits." },
+      { label: "Je ne sais pas / Nous ne gérons pas cela", score: "🚨", comment: "Pas de panique, nous pouvons vous aider à reconstituer vos flux de façon à les sécuriser et les documenter pour parer à vos prochains audits." },
+    ]
+  },
+  {
+    id: 7,
+    text: "Votre marque, votre logo, votre nom de domaine sont bien protégés au nom de votre société ?",
+    options: [
+      { label: "Oui bien sûr", score: "✅", comment: "On vous félicite et soyez vigilant(e) à leur renouvellement dans les temps." },
+      { label: "Tout a été déposé mais à mon nom personnel", score: "🚨", comment: "Tout investisseur ou acquéreur exigera que la société soit propriétaire de ces droits de propriété intellectuelle. Mais c'est une erreur courante et parfaitement régularisable. Contactez-nous !" },
+      { label: "À part le nom de domaine, je ne pense pas", score: "⚠️", comment: "La bonne nouvelle, c'est que vous n'avez pas commis d'erreur dans le titulaire et que nous saurons, avec l'aide de nos experts en propriété intellectuelle, vous accompagner dans ces dépôts." },
+    ]
+  },
+  {
+    id: 8,
+    text: "Votre société est titulaire d'un bail commercial et vous avez suivi l'application de vos clauses d'indexation de loyer ?",
+    options: [
+      { label: "Oui", score: "✅", comment: "Bravo, vous éviterez toute mauvaise surprise à vos futurs associés ou investisseurs." },
+      { label: "Non", score: "⚠️", comment: "Petite alerte : votre bailleur peut appliquer les clauses d'indexation de vos loyers jusqu'à 5 ans en arrière. Besoin d'aide pour calculer l'impact financier de cette éventuelle régularisation ? Nous avons un outil à vous proposer." },
+    ]
+  },
+  {
+    id: 9,
+    text: "Vous avez déjà entamé des discussions avec vos futurs investisseurs/associés et leur avez communiqué des données et informations ?",
+    options: [
+      { label: "Oui, mais avec un NDA (accord de confidentialité)", score: "✅", comment: "Vous êtes un pro ! Nous pouvons toutefois revoir votre NDA pour nous assurer que les engagements couvrent également la non-sollicitation et le non-débauchage." },
+      { label: "Oui, mais ça reste entre nous", score: "🚨", comment: "Vous en êtes certain(e) ? Rassurez-vous, si vos discussions sont en cours, nous pouvons les sécuriser en vous proposant un accord de confidentialité, non-sollicitation et non-débauchage." },
+      { label: "Pas encore, pourquoi ?", score: "⚠️", comment: "Parce qu'en vous en serez là, n'hésitez pas à nous contacter pour que nous vous proposions un accord de confidentialité, non-sollicitation et non-débauchage." },
+    ]
+  },
+  {
+    id: 10,
+    text: "Vous avez déjà parlé d'incentive, BSPCE, BSA, etc. avec vos managers ?",
+    options: [
+      { label: "Oui, mais on fera ça à la levée de fonds", score: "🚨", comment: "Oups, en attendant, vous les privez du gain attendu de ce type de mécanisme. Tant que votre société n'a pas encore été (fortement) valorisée, émettre des BSPCE ou BSA maintenant permet à leurs bénéficiaires d'acquérir demain des actions à la valeur d'aujourd'hui. Contactez-nous !" },
+      { label: "C'est plutôt eux qui m'en parlent mais je n'y comprends pas grand-chose", score: "⚠️", comment: "Chacun son métier ! Ces mécanismes sont parfois complexes. Contactez-nous et nous pourrons tout vous expliquer sans jargon et vous proposer un plan sur-mesure." },
+      { label: "Pas encore, c'est grave ?", score: "✅", comment: "Absolument pas ! Surtout si personne ne vous sollicite sur ce sujet. Si toutefois vous souhaitez garder une longueur d'avance, contactez-nous pour tout vous expliquer sans jargon." },
+    ]
+  },
+];
+
+let current = 0;
+let answers = []; // {optionIndex, score, comment, questionText, optionLabel}
+
+function startQuiz() {
+  document.getElementById('intro').style.display = 'none';
+  document.getElementById('quiz').style.display = 'block';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = QUESTIONS[current];
+  const total = QUESTIONS.length;
+  const pct = Math.round((current / total) * 100);
+
+  document.getElementById('progress-text').textContent = `Question ${current + 1} / ${total}`;
+  document.getElementById('progress-pct').textContent = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+
+  const existing = answers[current];
+
+  let optionsHtml = q.options.map((o, i) => `
+    <button class="option-btn ${existing && existing.optionIndex === i ? 'selected' : ''}"
+      onclick="selectOption(${i})">${o.label}</button>
+  `).join('');
+
+  document.getElementById('q-card').innerHTML = `
+    <div class="q-number">Question ${current + 1} sur ${total}</div>
+    <div class="q-text">${q.text}</div>
+    ${q.hint ? `<div class="q-hint">${q.hint}</div>` : ''}
+    <div class="options">${optionsHtml}</div>
+    <div class="q-nav">
+      <button class="btn-back" onclick="goBack()" ${current === 0 ? 'style="visibility:hidden"' : ''}>← Retour</button>
+      <button class="btn-next ${existing ? 'active' : ''}" id="btn-next" onclick="goNext()">
+        ${current < total - 1 ? 'Suivant →' : 'Voir mon JuriScore 🎯'}
+      </button>
+    </div>
+  `;
+}
+
+function selectOption(i) {
+  const q = QUESTIONS[current];
+  answers[current] = {
+    optionIndex: i,
+    score: q.options[i].score,
+    comment: q.options[i].comment,
+    questionText: q.text,
+    optionLabel: q.options[i].label,
+  };
+  document.querySelectorAll('.option-btn').forEach((btn, idx) => {
+    btn.classList.toggle('selected', idx === i);
+  });
+  document.getElementById('btn-next').classList.add('active');
+}
+
+function goBack() {
+  if (current > 0) { current--; renderQuestion(); }
+}
+
+function goNext() {
+  if (!answers[current]) return;
+  if (current < QUESTIONS.length - 1) {
+    current++;
+    renderQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function scoreEmoji(s) { return s; }
+
+function showResult() {
+  document.getElementById('quiz').style.display = 'none';
+  const r = document.getElementById('result');
+  r.style.display = 'block';
+
+  const counts = { '✅': 0, '⚠️': 0, '🚨': 0 };
+  answers.forEach(a => { if (counts[a.score] !== undefined) counts[a.score]++; });
+
+  const maxCount = Math.max(counts['✅'], counts['⚠️'], counts['🚨']);
+  let dominant = '⚠️';
+  if (counts['✅'] === maxCount && counts['✅'] >= counts['⚠️'] && counts['✅'] >= counts['🚨']) dominant = '✅';
+  else if (counts['🚨'] === maxCount && counts['🚨'] >= counts['⚠️']) dominant = '🚨';
+
+  const circleConfig = {
+    '✅': { bg: 'linear-gradient(135deg,#21B5B8,#00565F)', emoji: '✅' },
+    '⚠️': { bg: 'linear-gradient(135deg,#F2B92C,#e0a500)', emoji: '⚠️' },
+    '🚨': { bg: 'linear-gradient(135deg,#E85D15,#c73e00)', emoji: '🚨' },
+  };
+  const cc = circleConfig[dominant];
+
+  const labelMap = {
+    '✅': 'Société bien structurée',
+    '⚠️': 'Points à corriger',
+    '🚨': 'Risques critiques',
+  };
+
+  // Message cards
+  const msgGreen = `
+    <div class="message-card card-green">
+      <h2>🎉 Félicitations ! Votre société est bien structurée</h2>
+      <p>Votre JuriScore montre que votre société est bien structurée sur le plan juridique ! Sa situation est conforme aux attentes habituelles des investisseurs et acquéreurs.</p>
+      <p>Mais saviez-vous que même les sociétés les plus solides peuvent encore optimiser leur préparation ?</p>
+      <p><strong>Avec notre réseau de partenaires et de talents, nous pourrions :</strong></p>
+      <ul>
+        <li>Anticiper les attentes des investisseurs (clauses de liquidité, gouvernance).</li>
+        <li>Optimiser votre structure pour maximiser la valeur de votre société (holding, BSPCE).</li>
+        <li>Préparer sereinement une levée de fonds ou une cession avec un audit stratégique complet.</li>
+      </ul>
+      <p>Un check-up juridique avant une opération vous fait gagner du temps et de l'argent. <strong>Une société bien structurée se vend plus cher et plus vite.</strong></p>
+    </div>`;
+  const msgOrange = `
+    <div class="message-card card-orange">
+      <h2>⚠️ Votre JuriScore révèle des points à corriger — Agissons ensemble 🤝</h2>
+      <p>Votre diagnostic révèle quelques points à corriger pour sécuriser votre société avant une levée de fonds ou une cession.</p>
+      <p><strong>Notre solution : le JuriScan !</strong></p>
+      <p><em>C'est comme un contrôle technique : on vérifie l'essentiel pour éviter les mauvaises surprises, sans faire une révision complète et coûteuse.</em></p>
+      <p>Notre JuriScan est un audit ciblé et express pour :</p>
+      <ul>
+        <li>Identifier les failles juridiques en 1 semaine sur 6 thèmes clés.</li>
+        <li>Vous fournir un rapport clair et une check-list d'actions correctives prioritaires.</li>
+        <li>Vous expliquer les résultats lors d'un échange dédié.</li>
+        <li>Vous proposer un accompagnement pas à pas.</li>
+      </ul>
+      <p>Ces points peuvent ralentir une levée de fonds, coûter cher, ou créer des tensions entre associés. <strong>Un petit problème juridique non résolu aujourd'hui peut faire capoter un deal demain.</strong></p>
+    </div>`;
+  const msgRed = `
+    <div class="message-card card-red">
+      <h2>🚨 URGENT : Votre JuriScore révèle des risques critiques — Corrigeons-les ensemble 🤝</h2>
+      <p>Votre diagnostic révèle des risques dans votre structure juridique. Ces risques peuvent bloquer une levée de fonds, faire échouer une cession ou vous coûter très cher.</p>
+      <p><strong>Notre solution : le JuriScan !</strong></p>
+      <p><em>C'est comme un contrôle technique : on vérifie l'essentiel pour éviter les mauvaises surprises, sans faire une révision complète et coûteuse.</em></p>
+      <p>Notre JuriScan est un audit ciblé et express pour :</p>
+      <ul>
+        <li>Identifier les failles juridiques en 1 semaine sur 6 thèmes clés.</li>
+        <li>Vous fournir un rapport clair (⚠️ 🚨 ✅) et une check-list d'actions correctives prioritaires.</li>
+        <li>Vous expliquer les résultats lors d'un échange dédié pour clarifier les risques et leur urgence.</li>
+        <li>Vous proposer un accompagnement pas à pas.</li>
+      </ul>
+      <p>Un risque juridique non traité = un deal perdu. <strong>Agissons dès aujourd'hui !</strong></p>
+    </div>`;
+
+  const msgMap = { '✅': msgGreen, '⚠️': msgOrange, '🚨': msgRed };
+
+  // Recap list
+  const recapClass = { '✅': 'green', '⚠️': 'orange', '🚨': 'red' };
+  const recapItems = answers.map((a, i) => `
+    <div class="recap-item ${recapClass[a.score] || ''}">
+      <div class="recap-q">${QUESTIONS[i].text}</div>
+      <div class="recap-answer">${a.score} ${a.optionLabel}</div>
+      <div class="recap-comment">${a.comment}</div>
+    </div>
+  `).join('');
+
+  r.innerHTML = `
+    <div class="result-header">
+      <div class="score-circle" style="background:${cc.bg}">
+        <span style="font-size:2.4rem">${cc.emoji}</span>
+      </div>
+      <div class="score-label">${labelMap[dominant]}</div>
+      <div class="score-sub">Votre JuriScore a analysé vos 10 réponses. Voici votre diagnostic personnalisé.</div>
+      <div class="tally-row">
+        <div class="tally-pill"><span class="score-dot dot-green"></span> ${counts['✅']} Bien structuré</div>
+        <div class="tally-pill"><span class="score-dot dot-orange"></span> ${counts['⚠️']} À corriger</div>
+        <div class="tally-pill"><span class="score-dot dot-red"></span> ${counts['🚨']} Risque critique</div>
+      </div>
+    </div>
+
+    ${msgMap[dominant]}
+
+    <div class="recap-title">📋 Détail de vos réponses</div>
+    <div class="recap-list">${recapItems}</div>
+
+    <div class="contact-bar">
+      <div>
+        <p>Prochaine étape : contactez l'équipe Totum Avocats</p>
+        <p>📩 <a href="mailto:info@jpdtotum-avocats.fr">info@jpdtotum-avocats.fr</a> &nbsp;|&nbsp; 📞 <a href="tel:0478471302">04 78 47 13 02</a></p>
+        <p style="font-size:0.8rem;color:#aadde0;margin-top:4px">185 Rue Duguesclin – 69003 Lyon – Toque n°611</p>
+      </div>
+    </div>
+
+    <button class="btn-restart" onclick="restart()">↩ Recommencer le questionnaire</button>
+  `;
+
+  r.scrollIntoView({ behavior: 'smooth' });
+}
+
+function restart() {
+  current = 0;
+  answers = [];
+  document.getElementById('result').style.display = 'none';
+  document.getElementById('intro').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
