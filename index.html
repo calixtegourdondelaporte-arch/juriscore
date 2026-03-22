@@ -518,7 +518,9 @@ const QUESTIONS = [
     text: "Votre société a plus d'un exercice comptable derrière elle ?",
     options: [
       { label: "Non, c'est le premier", score: "⚠️", comment: "Notre conseil : faites-vous accompagner dans cette étape d'approbation et de dépôt des comptes. Nous nous assurerons que votre documentation juridique reflète bien les évènements comptabilisés dans votre bilan.", triggersSubQ: false },
-      { label: "Oui", score: null, comment: null, triggersSubQ: true },
+      { label: "Oui – et j'ai toujours approuvé et déposé mes comptes", score: null, comment: null, triggersSubQ: true },
+      { label: "Oui – mais je ne suis pas certain(e) d'avoir tout déposé", score: null, comment: null, triggersSubQ: true },
+      { label: "Oui – mais c'est de la paperasse, j'ai autre chose à faire", score: null, comment: null, triggersSubQ: true },
     ],
     subQuestion: {
       text: "Avez-vous toujours approuvé et déposé vos comptes ?",
@@ -835,7 +837,7 @@ function showResult() {
     <div class="contact-bar">
       <div>
         <p>Prochaine étape : contactez l'équipe Totum Avocats</p>
-        <p>📩 <a href="mailto:info@jpdtotum-avocats.fr">info@jpdtotum-avocats.fr</a> &nbsp;|&nbsp; 📞 <a href="tel:0478471302">04 78 47 13 02</a></p>
+        <p>📩 <a href="mailto:info@jpdtotum-avocats.com">info@jpdtotum-avocats.fr</a> &nbsp;|&nbsp; 📞 <a href="tel:0478471302">06.59.38.30.77</a></p>
         <p style="font-size:0.8rem;color:#aadde0;margin-top:4px">185 Rue Duguesclin – 69003 Lyon – Toque n°611</p>
       </div>
     </div>
