@@ -513,15 +513,21 @@ const QUESTIONS = [
     ]
   },
   {
+    {
     id: 3,
     text: "Votre société a plus d'un exercice comptable derrière elle ?",
-    hint: "Si non, nous vous donnerons un conseil ciblé. Si oui, une question complémentaire suivra.",
     options: [
-      { label: "Non, c'est le premier", score: "⚠️", comment: "Notre conseil : faites-vous accompagner dans cette étape d'approbation et de dépôt des comptes. Nous nous assurerons que votre documentation juridique reflète bien les évènements comptabilisés dans votre bilan.", subQ: false },
-      { label: "Oui – et j'ai toujours approuvé et déposé mes comptes", score: "✅", comment: "Félicitations ! Si en plus votre documentation juridique est en cohérence avec votre pitch et vos bilans, vous êtes fin prêt(e) à affronter vos futurs audits !", subQ: false },
-      { label: "Oui – mais je ne suis pas certain(e) d'avoir tout déposé", score: "⚠️", comment: "Soyez certain(e) que tout audit d'investissement débutera par une revue du respect de vos obligations juridico-comptables. Chez totum, nous savons mettre en cohérence la documentation juridique et votre pitch.", subQ: false },
-      { label: "Oui – mais c'est de la paperasse, j'ai autre chose à faire", score: "🚨", comment: "C'est avant tout une obligation légale. Tout audit d'investissement/d'acquisition débutera par une revue du respect de vos obligations. Notre petit plus chez totum : nous savons mettre en cohérence la documentation juridique et votre pitch.", subQ: false },
-    ]
+      { label: "Non, c'est le premier", score: "⚠️", comment: "Notre conseil : faites-vous accompagner dans cette étape d'approbation et de dépôt des comptes. Nous nous assurerons que votre documentation juridique reflète bien les évènements comptabilisés dans votre bilan.", triggersSubQ: false },
+      { label: "Oui", score: null, comment: null, triggersSubQ: true },
+    ],
+    subQuestion: {
+      text: "Avez-vous toujours approuvé et déposé vos comptes ?",
+      options: [
+        { label: "Oui bien sûr !", score: "✅", comment: "Félicitations ! Si en plus votre documentation juridique est en cohérence avec votre pitch et les succès comptabilisés dans vos bilans, vous êtes fin prêt(e) à affronter vos futurs audits !" },
+        { label: "Heu... peut-être, pourquoi ?", score: "⚠️", comment: "Soyez certain(e) que tout audit d'investissement/d'acquisition débutera par une revue du respect de vos obligations juridico-comptables. Notre petit plus chez totum : nous savons mettre en cohérence la documentation juridique et votre pitch." },
+        { label: "Sûrement, mais c'est de la paperasse…", score: "🚨", comment: "C'est avant tout une obligation légale. Soyez certain(e) que tout audit d'investissement/d'acquisition débutera par une revue du respect de vos obligations. Notre petit plus chez totum : nous savons mettre en cohérence la documentation juridique et votre pitch." },
+      ]
+    }
   },
   {
     id: 4,
@@ -592,7 +598,8 @@ const QUESTIONS = [
 ];
 
 let current = 0;
-let answers = []; // {optionIndex, score, comment, questionText, optionLabel}
+let inSubQ = false;
+let answers = [];
 
 function startQuiz() {
   document.getElementById('intro').style.display = 'none';
@@ -603,14 +610,34 @@ function startQuiz() {
 function renderQuestion() {
   const q = QUESTIONS[current];
   const total = QUESTIONS.length;
-  const pct = Math.round((current / total) * 100);
+  const pct = Math.round(((current + (inSubQ ? 0.5 : 0)) / total) * 100);
 
-  document.getElementById('progress-text').textContent = `Question ${current + 1} / ${total}`;
+  document.getElementById('progress-text').textContent =
+    inSubQ ? `Question 3 (suite) / ${total}` : `Question ${current + 1} / ${total}`;
   document.getElementById('progress-pct').textContent = pct + '%';
   document.getElementById('progress-fill').style.width = pct + '%';
 
-  const existing = answers[current];
+  if (inSubQ && q.subQuestion) {
+    const sub = q.subQuestion;
+    const existingSub = answers[current] && answers[current].fromSubQ ? answers[current] : null;
+    let optionsHtml = sub.options.map((o, i) => `
+      <button class="option-btn ${existingSub && existingSub.optionIndex === i ? 'selected' : ''}"
+        onclick="selectSubOption(${i})">${o.label}</button>
+    `).join('');
+    document.getElementById('q-card').innerHTML = `
+      <div class="q-number">Question 3 — Suite</div>
+      <div class="q-text">${sub.text}</div>
+      <div class="q-hint" style="color:#21B5B8;font-style:normal;font-weight:700;">↳ Parce que vous avez répondu « Oui » à la question précédente</div>
+      <div class="options">${optionsHtml}</div>
+      <div class="q-nav">
+        <button class="btn-back" onclick="goBack()">← Retour</button>
+        <button class="btn-next ${existingSub ? 'active' : ''}" id="btn-next" onclick="goNext()">Suivant →</button>
+      </div>
+    `;
+    return;
+  }
 
+  const existing = answers[current] && !answers[current].fromSubQ ? answers[current] : null;
   let optionsHtml = q.options.map((o, i) => `
     <button class="option-btn ${existing && existing.optionIndex === i ? 'selected' : ''}"
       onclick="selectOption(${i})">${o.label}</button>
@@ -638,6 +665,24 @@ function selectOption(i) {
     comment: q.options[i].comment,
     questionText: q.text,
     optionLabel: q.options[i].label,
+    fromSubQ: false,
+  };
+  document.querySelectorAll('.option-btn').forEach((btn, idx) => {
+    btn.classList.toggle('selected', idx === i);
+  });
+  document.getElementById('btn-next').classList.add('active');
+}
+
+function selectSubOption(i) {
+  const q = QUESTIONS[current];
+  const sub = q.subQuestion;
+  answers[current] = {
+    optionIndex: i,
+    score: sub.options[i].score,
+    comment: sub.options[i].comment,
+    questionText: q.text + ' → ' + sub.text,
+    optionLabel: sub.options[i].label,
+    fromSubQ: true,
   };
   document.querySelectorAll('.option-btn').forEach((btn, idx) => {
     btn.classList.toggle('selected', idx === i);
@@ -646,11 +691,35 @@ function selectOption(i) {
 }
 
 function goBack() {
-  if (current > 0) { current--; renderQuestion(); }
+  if (inSubQ) {
+    inSubQ = false;
+    answers[current] = null;
+    renderQuestion();
+    return;
+  }
+  if (current > 0) {
+    current--;
+    const prev = answers[current];
+    if (QUESTIONS[current].subQuestion && prev && prev.fromSubQ) {
+      inSubQ = true;
+    }
+    renderQuestion();
+  }
 }
 
 function goNext() {
   if (!answers[current]) return;
+  const q = QUESTIONS[current];
+  if (!inSubQ && q.subQuestion) {
+    const selectedOpt = q.options[answers[current].optionIndex];
+    if (selectedOpt && selectedOpt.triggersSubQ) {
+      inSubQ = true;
+      answers[current] = null;
+      renderQuestion();
+      return;
+    }
+  }
+  inSubQ = false;
   if (current < QUESTIONS.length - 1) {
     current++;
     renderQuestion();
