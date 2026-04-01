@@ -507,6 +507,7 @@ const QUESTIONS = [
       { label: "Kezako ?", score: "🚨", comment: "Les pièces qui vous seront systématiquement demandées par les administrations et qui font office de titres de propriété pour les sociétés par actions. Pas de panique, vous pouvez régulariser avec du papier ou une solution digitale." },
       { label: "Oui mais ils sont vierges", score: "⚠️", comment: "Pas de panique, une mise à jour est toujours possible." },
       { label: "Oui et tous bien renseignés « of course »", score: "✅", comment: "Bravo ! Vous êtes irréprochable !" },
+      { label: "Non concerné(e)", score: "👟", comment: "Pas d'inquiétude, ce point ne s'applique pas encore à votre situation." },
     ]
   },
   
@@ -514,10 +515,9 @@ const QUESTIONS = [
     id: 3,
     text: "Votre société a plus d'un exercice comptable derrière elle ?",
     options: [
-      { label: "Non, c'est le premier", score: "⚠️", comment: "Notre conseil : faites-vous accompagner dans cette étape d'approbation et de dépôt des comptes. Nous nous assurerons que votre documentation juridique reflète bien les évènements comptabilisés dans votre bilan.", triggersSubQ: false },
-      { label: "Oui – et j'ai toujours approuvé et déposé mes comptes", score: null, comment: null, triggersSubQ: true },
-      { label: "Oui – mais je ne suis pas certain(e) d'avoir tout déposé", score: null, comment: null, triggersSubQ: true },
-      { label: "Oui – mais c'est de la paperasse, j'ai autre chose à faire", score: null, comment: null, triggersSubQ: true },
+     { label: "Non, c'est le premier", score: "⚠️", comment: "Notre conseil : faites-vous accompagner dans cette étape d'approbation et de dépôt des comptes. Nous nous assurerons que votre documentation juridique reflète bien les évènements comptabilisés dans votre bilan.", triggersSubQ: false },
+      { label: "Oui", score: null, comment: null, triggersSubQ: true },
+      { label: "Non concerné(e)", score: "👟", comment: "Pas d'inquiétude, ce point ne s'applique pas encore à votre situation.", triggersSubQ: false },
     ],
     subQuestion: {
       text: "Avez-vous toujours approuvé et déposé vos comptes ?",
@@ -536,6 +536,8 @@ const QUESTIONS = [
       { label: "Oui, c'est mon livre de chevet", score: "✅", comment: "Quel talent ! Si en plus il est efficace juridiquement et sans contradiction avec vos statuts, vous êtes paré à toute éventualité. Pour le vérifier, un audit rapide peut être utile." },
       { label: "Non", score: "🚨", comment: "Pas de panique, nous pouvons vous accompagner pour créer votre futur pacte !" },
       { label: "C'est en cours... mais pas urgent", score: "⚠️", comment: "Vous êtes un adepte du « jusqu'ici tout va bien ». Pas de panique, nous pouvons reprendre les choses là où elles en sont restées et vous accompagner jusqu'à la finalisation de votre pacte." },
+      { label: "Je suis associé(e) unique", score: "✅", comment: "Pour le moment, vous êtes donc seul(e) maître à bord. Cela ne signifie pas pour autant que vous ne faites qu'un(e) avec votre société. Faites attention à ne pas confondre ses poches avec les vôtres et à respecter le formalisme légal notamment en ce qui concerne la fixation de votre rémunération." },
+      { label: "Non concerné(e)", score: "👟", comment: "Pas d'inquiétude, ce point ne s'applique pas encore à votre situation." },
     ]
   },
   {
@@ -557,6 +559,7 @@ const QUESTIONS = [
       { label: "Contrats avec des proches non approuvés en AG", score: "⚠️", comment: "Il n'y a pas péril en la demeure, mais il vaudrait mieux sécuriser la situation. On vous aide pour régulariser tout ça ?" },
       { label: "Comptes courants ET contrats avec des proches, rien n'est écrit ni approuvé", score: "🚨", comment: "Pas de panique, nous pouvons vous aider à reconstituer vos flux de façon à les sécuriser et les documenter pour parer à vos prochains audits." },
       { label: "Je ne sais pas / Nous ne gérons pas cela", score: "🚨", comment: "Pas de panique, nous pouvons vous aider à reconstituer vos flux de façon à les sécuriser et les documenter pour parer à vos prochains audits." },
+      { label: "Non concerné(e)", score: "👟", comment: "Pas d'inquiétude, ce point ne s'applique pas encore à votre situation." },
     ]
   },
   {
@@ -566,6 +569,8 @@ const QUESTIONS = [
       { label: "Oui bien sûr", score: "✅", comment: "On vous félicite et soyez vigilant(e) à leur renouvellement dans les temps." },
       { label: "Tout a été déposé mais à mon nom personnel", score: "🚨", comment: "Tout investisseur ou acquéreur exigera que la société soit propriétaire de ces droits de propriété intellectuelle. Mais c'est une erreur courante et parfaitement régularisable. Contactez-nous !" },
       { label: "À part le nom de domaine, je ne pense pas", score: "⚠️", comment: "La bonne nouvelle, c'est que vous n'avez pas commis d'erreur dans le titulaire et que nous saurons, avec l'aide de nos experts en propriété intellectuelle, vous accompagner dans ces dépôts." },
+      { label: "Je n'ai rien déposé", score: "⚠️", comment: "Avant d'investir dans votre marque ou nom de domaine, vérifiez leur disponibilité sur l'INPI pour éviter les conflits. Protégez-les sans tarder ! Besoin d'un coup de main pour sécuriser votre PI ? On est là 😊." },
+      { label: "Non concerné(e)", score: "👟", comment: "Pas d'inquiétude, ce point ne s'applique pas encore à votre situation." },
     ]
   },
   {
@@ -574,6 +579,8 @@ const QUESTIONS = [
     options: [
       { label: "Oui", score: "✅", comment: "Bravo, vous éviterez toute mauvaise surprise à vos futurs associés ou investisseurs." },
       { label: "Non", score: "⚠️", comment: "Petite alerte : votre bailleur peut appliquer les clauses d'indexation de vos loyers jusqu'à 5 ans en arrière. Besoin d'aide pour calculer l'impact financier de cette éventuelle régularisation ? Nous avons un outil à vous proposer." },
+      { label: "Je travaille de chez moi", score: "⚠️", comment: "Attention : si vous facturez un loyer pour votre domicile utilisé à des fins professionnelles, assurez-vous qu'il soit correctement fixé et documenté (justificatifs, convention écrite). Un loyer trop élevé ou non justifié peut être requalifié par l'administration fiscale, avec un risque de redressement. Besoin d'aide pour fixer un montant raisonnable ou rédiger une convention ? On vous accompagne ! 😊." },
+      { label: "Non concerné(e)", score: "👟", comment: "Pas d'inquiétude, ce point ne s'applique pas encore à votre situation." },
     ]
   },
   {
@@ -583,6 +590,7 @@ const QUESTIONS = [
       { label: "Oui, mais avec un NDA (accord de confidentialité)", score: "✅", comment: "Vous êtes un pro ! Nous pouvons toutefois revoir votre NDA pour nous assurer que les engagements couvrent également la non-sollicitation et le non-débauchage." },
       { label: "Oui, mais ça reste entre nous", score: "🚨", comment: "Vous en êtes certain(e) ? Rassurez-vous, si vos discussions sont en cours, nous pouvons les sécuriser en vous proposant un accord de confidentialité, non-sollicitation et non-débauchage." },
       { label: "Pas encore, pourquoi ?", score: "⚠️", comment: "Parce qu'en vous en serez là, n'hésitez pas à nous contacter pour que nous vous proposions un accord de confidentialité, non-sollicitation et non-débauchage." },
+      { label: "Non concerné(e)", score: "👟", comment: "Pas d'inquiétude, ce point ne s'applique pas encore à votre situation." },
     ]
   },
   {
@@ -592,6 +600,7 @@ const QUESTIONS = [
       { label: "Oui, mais on fera ça à la levée de fonds", score: "🚨", comment: "Oups, en attendant, vous les privez du gain attendu de ce type de mécanisme. Tant que votre société n'a pas encore été (fortement) valorisée, émettre des BSPCE ou BSA maintenant permet à leurs bénéficiaires d'acquérir demain des actions à la valeur d'aujourd'hui. Contactez-nous !" },
       { label: "C'est plutôt eux qui m'en parlent mais je n'y comprends pas grand-chose", score: "⚠️", comment: "Chacun son métier ! Ces mécanismes sont parfois complexes. Contactez-nous et nous pourrons tout vous expliquer sans jargon et vous proposer un plan sur-mesure." },
       { label: "Pas encore, c'est grave ?", score: "✅", comment: "Absolument pas ! Surtout si personne ne vous sollicite sur ce sujet. Si toutefois vous souhaitez garder une longueur d'avance, contactez-nous pour tout vous expliquer sans jargon." },
+      { label: "Non concerné(e)", score: "👟", comment: "Pas d'inquiétude, ce point ne s'applique pas encore à votre situation." },
     ]
   },
 ];
@@ -734,18 +743,20 @@ function showResult() {
   const r = document.getElementById('result');
   r.style.display = 'block';
 
-  const counts = { '✅': 0, '⚠️': 0, '🚨': 0 };
+  const counts = { '✅': 0, '⚠️': 0, '🚨': 0, '👟': 0 };
   answers.forEach(a => { if (counts[a.score] !== undefined) counts[a.score]++; });
 
-  const maxCount = Math.max(counts['✅'], counts['⚠️'], counts['🚨']);
+  const maxCount = Math.max(counts['✅'], counts['⚠️'], counts['🚨'], counts['👟']);
   let dominant = '⚠️';
-  if (counts['✅'] === maxCount && counts['✅'] >= counts['⚠️'] && counts['✅'] >= counts['🚨']) dominant = '✅';
+  if (counts['👟'] === maxCount && counts['👟'] > counts['✅'] && counts['👟'] > counts['⚠️'] && counts['👟'] > counts['🚨']) dominant = '👟';
+  else if (counts['✅'] === maxCount && counts['✅'] >= counts['⚠️'] && counts['✅'] >= counts['🚨']) dominant = '✅';
   else if (counts['🚨'] === maxCount && counts['🚨'] >= counts['⚠️']) dominant = '🚨';
 
   const circleConfig = {
     '✅': { bg: 'linear-gradient(135deg,#21B5B8,#00565F)', emoji: '✅' },
     '⚠️': { bg: 'linear-gradient(135deg,#F2B92C,#e0a500)', emoji: '⚠️' },
     '🚨': { bg: 'linear-gradient(135deg,#E85D15,#c73e00)', emoji: '🚨' },
+    '👟': { bg: 'linear-gradient(135deg,#aaa,#777)', emoji: '👟' },
   };
   const cc = circleConfig[dominant];
 
@@ -753,6 +764,7 @@ function showResult() {
     '✅': 'Société bien structurée',
     '⚠️': 'Points à corriger',
     '🚨': 'Risques critiques',
+    '👟': 'Projet en cours de structuration',
   };
 
   // Message cards
@@ -799,11 +811,17 @@ function showResult() {
       </ul>
       <p>Un risque juridique non traité = un deal perdu. <strong>Agissons dès aujourd'hui !</strong></p>
     </div>`;
-
-  const msgMap = { '✅': msgGreen, '⚠️': msgOrange, '🚨': msgRed };
+  const msgSneaker = `
+    <div class="message-card" style="background:linear-gradient(135deg,#f5f5f5,#e8e8e8);border-left:5px solid #aaa;">
+      <h2>👟 Vous êtes au début de votre projet — Bienvenue !</h2>
+      <p>Vous êtes au début de votre projet, et nous lui/vous souhaitons une franche réussite !</p>
+      <p>N'hésitez pas à nous contacter pour que nous puissions vous accompagner dans votre structuration dès le départ.</p>
+      <p><strong>Le gain : éviter les (mauvaises) surprises demain !</strong></p>
+    </div>`;
+  const msgMap = { '✅': msgGreen, '⚠️': msgOrange, '🚨': msgRed, '👟': msgSneaker };
 
   // Recap list
-  const recapClass = { '✅': 'green', '⚠️': 'orange', '🚨': 'red' };
+  const recapClass = { '✅': 'green', '⚠️': 'orange', '🚨': 'red', '👟': msgSneaker };
   const recapItems = answers.map((a, i) => `
     <div class="recap-item ${recapClass[a.score] || ''}">
       <div class="recap-q">${QUESTIONS[i].text}</div>
@@ -820,9 +838,10 @@ function showResult() {
       <div class="score-label">${labelMap[dominant]}</div>
       <div class="score-sub">Votre JuriQuizz a analysé vos 10 réponses. Voici votre diagnostic personnalisé.</div>
       <div class="tally-row">
-        <div class="tally-pill"><✅></span> ${counts['✅']} "Bien structuré"</div>
-        <div class="tally-pill"><span class="score-dot dot-orange"></span> ${counts['⚠️']} À corriger</div>
-        <div class="tally-pill"><span class="score-dot dot-red"></span> ${counts['🚨']} Risque critique</div>
+        <div class="tally-pill">✅</span> ${counts['✅']} « Bien structuré »</div>
+        <div class="tally-pill">⚠️</span> ${counts['⚠️']} « À corriger »</div>
+        <div class="tally-pill">🚨</span> ${counts['🚨']} « Risque critique »</div>
+        <div class="tally-pill">👟</span> ${counts['👟']} « Non concerné(e) »</div>
       </div>
     </div>
 
@@ -833,8 +852,8 @@ function showResult() {
 
     <div class="contact-bar">
       <div>
-        <p>Prochaine étape : contactez l'équipe totum Avocats</p>
-        <p>📩 <a href="mailto:info@jpdtotum-avocats.com">info@jpdtotum-avocats.com</a> &nbsp;|&nbsp; 📞 <a href="tel:0478471302">06.59.38.30.77</a></p>
+        Votre prochaine étape pour passer à l'action en toute confiance ? Nous contacter :</p>
+        <p>📩 <a href="mailto:info@jpdtotum-avocats.com">info@jpdtotum-avocats.com</a> &nbsp;|&nbsp; 📞 <a href="tel:0478471302">06.59.38.30.77</a> &nbsp;|&nbsp; <a href="https://www.linkedin.com/company/totum-avocats" target="_blank">LinkedIn</a></p>
       </div>
     </div>
 
