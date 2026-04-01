@@ -410,7 +410,7 @@
   }
   .contact-bar p { font-weight: 600; font-size: 0.95rem; }
   .contact-bar a {
-    color: var(--teal);
+    color: var(--teal-dark);
     text-decoration: none;
     font-weight: 700;
   }
@@ -659,7 +659,7 @@ function renderQuestion() {
     <div class="q-nav">
       <button class="btn-back" onclick="goBack()" ${current === 0 ? 'style="visibility:hidden"' : ''}>← Retour</button>
       <button class="btn-next ${existing ? 'active' : ''}" id="btn-next" onclick="goNext()">
-        ${current < total - 1 ? 'Suivant →' : 'Voir mon JuriScore 🎯'}
+        ${current < total - 1 ? 'Suivant →' : 'Voir mon JuriQuizz 🎯'}
       </button>
     </div>
   `;
