@@ -821,7 +821,7 @@ function showResult() {
   const msgMap = { '✅': msgGreen, '⚠️': msgOrange, '🚨': msgRed, '👟': msgSneaker };
 
   // Recap list
-  const recapClass = { '✅': 'green', '⚠️': 'orange', '🚨': 'red', '👟': msgSneaker };
+  const recapClass = { '✅': 'green', '⚠️': 'orange', '🚨': 'red' };
   const recapItems = answers.map((a, i) => `
     <div class="recap-item ${recapClass[a.score] || ''}">
       <div class="recap-q">${QUESTIONS[i].text}</div>
