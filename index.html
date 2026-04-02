@@ -859,6 +859,19 @@ function showResult() {
     <button class="btn-restart" onclick="restart()">↩ Recommencer le questionnaire</button>
   `;
 
+  const icotype = document.createElement('div');
+  icotype.style.textAlign = "center";
+  icotype.style.marginTop = "20px";
+
+  const img = document.createElement('img');
+  img.src = "icotype-totum.png";   // ← ton fichier PNG
+  img.alt = "Icotype Totum";
+  img.style.width = "60px";        // ajuste la taille si besoin
+  img.style.height = "auto";
+
+  icotype.appendChild(img);
+  r.appendChild(icotype);
+  
   // Ajouter le disclaimer en bas
   const disclaimer = document.createElement('div');
   disclaimer.style.cssText = 'max-width:740px;margin:32px auto 0;padding:0 24px 40px;';
